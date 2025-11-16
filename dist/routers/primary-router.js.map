@@ -1,0 +1,1 @@
+{"version":3,"file":"primary-router.js","sourceRoot":"","sources":["../../src/routers/primary-router.ts"],"names":[],"mappings":";;;;;AAAA,qCAAiC;AACjC,uEAAqD;AAErD,MAAM,aAAa,GAAG,IAAA,gBAAM,GAAE,CAAC;AAE/B,aAAa,CAAC,KAAK,CAAC,OAAO,CAAC,CAAC,IAAI,CAAC,kBAAc,CAAC,CAAC,GAAG,CAAC,kBAAc,CAAC,CAAC;AAEtE,kBAAe,aAAa,CAAC"}
