@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "npm i && npx tsc && node dist/index.js"
+    "start": "npm i --include=dev && npx tsc && node dist/index.js"
   },
   "keywords": [],
   "author": "",

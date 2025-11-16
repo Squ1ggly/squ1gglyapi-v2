@@ -1,8 +1,8 @@
 import { Router } from "express";
-import testController from "../controllers/template";
+import customerRequest from "../controllers/customerRequest";
 
-const primaryRouter = Router();
+const primaryRouter = Router({ mergeParams: true });
 
-primaryRouter.route("/test").post(testController).get(testController);
+primaryRouter.post("/customerRequest", customerRequest);
 
 export default primaryRouter;

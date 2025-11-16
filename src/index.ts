@@ -12,48 +12,55 @@ assert(process.env.PORT, ".env must contain PORT");
 const PORT = process.env.PORT || 5102;
 
 process.on("uncaughtExceptionMonitor", (e) => {
-  console.error(e);
+    console.error(e);
 });
 
 process.on("uncaughtException", (e) => {
-  console.error("Uncaught exception: " + e);
+    console.error("Uncaught exception: " + e);
 });
 
 const server = express();
 
 function main() {
-  // Allow from any origin
-  server.use(cors());
-  server.use((req, _res, next) => {
-    // Omit code from being logged
-    console.info(`${req.method} request received PATH: ${req.originalUrl?.split("?")[0]}`);
-    next();
-  });
+    server.use(
+        cors({
+            // origin: [/\.squ1ggly\.com$/, /^squ1ggly\.com$/],
+        }),
+    );
+    server.use((req, _res, next) => {
+        // Omit code from being logged
+        console.info(
+            `${req.method} request received PATH: ${req.originalUrl?.split("?")[0]}`,
+            req,
+        );
 
-  server.use(
-    express.json({
-      limit: "100mb",
-      type: "application/json",
-      verify: (req, _res, buf, _encoding) => {
-        req.raw = buf;
-      }
-    })
-  );
-  server.use(express.urlencoded({ extended: true }));
+        next();
+    });
 
-  server.use("/api", primaryRouter);
+    server.use(
+        express.json({
+            limit: "100mb",
+            type: "application/json",
+            verify: (req, _res, buf, _encoding) => {
+                req.raw = buf;
+            },
+        }),
+    );
+    server.use(express.urlencoded({ extended: true }));
 
-  // Fallback redirect
-  server.use("/", (req, res, next) => {
-    res.status(400).send("Not a valid route");
-    return;
-  });
+    server.use("/api", primaryRouter);
 
-  server.listen(PORT, () => {
-    console.info(`Listening on port ${PORT} URL: http://localhost:${PORT}`);
-  });
+    // Fallback redirect
+    server.use("/", (req, res, next) => {
+        res.status(400).send("Not a valid route");
+        return;
+    });
 
-  server.use(errorMiddleware);
+    server.listen(PORT, () => {
+        console.info(`Listening on port ${PORT} URL: http://localhost:${PORT}`);
+    });
+
+    server.use(errorMiddleware);
 }
 
 main();
