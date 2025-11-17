@@ -48,7 +48,7 @@ export default async function customerRequest(
             JSON.stringify({
                 email: req.body?.email,
                 plan: req.body?.plan || "No plan",
-                description: "",
+                description: req.body?.description ?? "",
             }),
         );
 
