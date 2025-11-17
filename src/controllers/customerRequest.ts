@@ -1,4 +1,5 @@
 import { NextFunction, Response, Request } from "express";
+import { ISiteStub, RAPIDAPIHelper } from "../util/rapidHelper";
 
 export default async function customerRequest(
     req: Request,
@@ -24,14 +25,36 @@ export default async function customerRequest(
 
         const data = await verifyRes.json();
 
-        if (data.success) {
-            return res.json({ message: "hCaptcha verification succeeded" });
+        if (!data.success) {
+            return res
+                .status(400)
+                .json({ message: "hCaptcha verification failed", data });
         }
 
-        return res
-            .status(400)
-            .json({ message: "hCaptcha verification failed", data });
-    } catch (error) {
+        const siteStub: ISiteStub = {
+            environment: "test",
+            tenant: "squ1gglyzerocool",
+            site: "family",
+        };
+
+        const rapidHelper = new RAPIDAPIHelper(
+            siteStub,
+            process.env.CLIENT_ID ?? "",
+            process.env.CLIENT_SECRET ?? "",
+        );
+
+        await rapidHelper.createItem(
+            "Website Requests",
+            JSON.stringify({
+                email: req.body?.email,
+                plan: req.body?.plan || "No plan",
+                description: "",
+            }),
+        );
+
+        return res.json({ message: "hCaptcha verification succeeded" });
+    } catch (error: any) {
+        console.log(error?.message ?? "");
         next("An unexptected error occured");
         return;
     }
