@@ -9,7 +9,7 @@ export default async function customerRequest(
     try {
         const secret = process.env.HCAPTCHA_SECRET;
 
-        const token = req.headers["x-capcha-token"] as string;
+        const token = req.headers["x-captcha-token"] as string;
 
         const formData = new URLSearchParams();
         formData.append("response", token ?? "");
