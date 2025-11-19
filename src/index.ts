@@ -24,7 +24,7 @@ const server = express();
 function main() {
     server.use(
         cors({
-            origin: [/\.squ1ggly\.com$/, /^squ1ggly\.com$/],
+            // origin: [/\.squ1ggly\.com$/, /^squ1ggly\.com$/],
         }),
     );
     server.use((req, _res, next) => {
